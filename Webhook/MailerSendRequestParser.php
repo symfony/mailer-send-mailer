@@ -50,7 +50,7 @@ final class MailerSendRequestParser extends AbstractRequestParser
 
         if ('webhook.test' === ($content['type'] ?? null)) {
             $secret = self::TEST_SECRET;
-	} elseif (!isset($content['type'], $content['data']['email']['message']['id'], $content['data']['email']['recipient']['email'])) {
+        } elseif (!isset($content['type'], $content['data']['email']['message']['id'], $content['data']['email']['recipient']['email'])) {
             throw new RejectWebhookException(406, 'Payload is malformed.');
         }
 
@@ -65,9 +65,9 @@ final class MailerSendRequestParser extends AbstractRequestParser
                 $secret,
             );
 
-	    if (self::TEST_SECRET === $secret) {
+            if (self::TEST_SECRET === $secret) {
                 throw new RejectWebhookException(202);
-	    }
+            }
         }
 
         try {
