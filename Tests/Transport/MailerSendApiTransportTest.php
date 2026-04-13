@@ -129,7 +129,7 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForErrorResponse()
     {
-        $client = new MockHttpClient(function (string $method, string $url, array $options): ResponseInterface {
+        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
             return new JsonMockResponse(['message' => 'i\'m a teapot'], [
                 'http_code' => 418,
             ]);
@@ -150,7 +150,7 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForAllSuppressed()
     {
-        $client = new MockHttpClient(function (string $method, string $url, array $options): ResponseInterface {
+        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
             return new JsonMockResponse([
                 'message' => 'There are some warnings for your request.',
                 'warnings' => [
@@ -178,7 +178,7 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForBadResponse()
     {
-        $client = new MockHttpClient(function (string $method, string $url, array $options): ResponseInterface {
+        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
             return new MockResponse('test', [
                 'http_code' => 202,
             ]);
