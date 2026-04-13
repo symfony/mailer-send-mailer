@@ -129,11 +129,9 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForErrorResponse()
     {
-        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
-            return new JsonMockResponse(['message' => 'i\'m a teapot'], [
-                'http_code' => 418,
-            ]);
-        });
+        $client = new MockHttpClient(static fn (string $method, string $url, array $options): ResponseInterface => new JsonMockResponse(['message' => 'i\'m a teapot'], [
+            'http_code' => 418,
+        ]));
 
         $transport = new MailerSendApiTransport('ACCESS_KEY', $client);
 
@@ -150,18 +148,16 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForAllSuppressed()
     {
-        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
-            return new JsonMockResponse([
-                'message' => 'There are some warnings for your request.',
-                'warnings' => [
-                    [
-                        'type' => 'ALL_SUPPRESSED',
-                    ],
+        $client = new MockHttpClient(static fn (string $method, string $url, array $options): ResponseInterface => new JsonMockResponse([
+            'message' => 'There are some warnings for your request.',
+            'warnings' => [
+                [
+                    'type' => 'ALL_SUPPRESSED',
                 ],
-            ], [
-                'http_code' => 202,
-            ]);
-        });
+            ],
+        ], [
+            'http_code' => 202,
+        ]));
 
         $transport = new MailerSendApiTransport('ACCESS_KEY', $client);
 
@@ -178,11 +174,9 @@ class MailerSendApiTransportTest extends TestCase
 
     public function testSendThrowsForBadResponse()
     {
-        $client = new MockHttpClient(static function (string $method, string $url, array $options): ResponseInterface {
-            return new MockResponse('test', [
-                'http_code' => 202,
-            ]);
-        });
+        $client = new MockHttpClient(static fn (string $method, string $url, array $options): ResponseInterface => new MockResponse('test', [
+            'http_code' => 202,
+        ]));
 
         $transport = new MailerSendApiTransport('ACCESS_KEY', $client);
 
